@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Frankie B Pinat" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: sans serif;
+      }
+
+      body {
+        background: #202020;
+        margin: 0;
+        min-width: 250px;
+        text-align: center;
+        padding: 0 20px;
+      }
+
+      ul {
+        position: relative;
+        top: 180px;
+        left: 0;
+        background: #303030;
+        display: inline-block;
+        text-align: left;
+        margin: 0;
+        padding: 10px;
+        width: 600px;
+      }
+
+      ul li {
+        cursor: pointer;
+        position: relative;
+        padding: 12px 8px 12px 40px;
+        list-style-type: none;
+        background: #eee;
+        font-size: 18px;
+        transition: 0.2s;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      ul li:nth-child(odd) {
+        background: #f9f9f9;
+      }
+
+      ul li:hover {
+        background: gray;
+        color: white;
+      }
+
+      ul li.checked {
+        background: #2bdba8;
+        color: white;
+        text-decoration: line-through;
+      }
+
+      ul li.checked::before {
+        content: "";
+        position: absolute;
+        border-color: #fff;
+        border-style: solid;
+        border-width: 0 2px 2px 0;
+        top: 10px;
+        left: 16px;
+        transform: rotate(45deg);
+        height: 15px;
+        width: 7px;
+      }
+
+      .close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 12px 16px 12px 16px;
+      }
+
+      .close:hover {
+        background-color: #ff4f61;
+        color: white;
+      }
+
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #303030;
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 0 20px black;
+        width: 100%;
+        height: 150px;
+        padding: 10px 40px 10px;
+        color: white;
+        text-align: center;
+        z-index: 1;
+      }
+
+      .header:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      .headerBox {
+        display: inline-block;
+        width: 900px;
+      }
+
+      h1 {
+        text-transform: uppercase;
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding: 10px;
+      }
+
+      input {
+        margin: 0;
+        border: none;
+        outline: none;
+        border-radius: 10px 0 0 10px;
+        width: 75%;
+        padding: 10px;
+        float: left;
+        font-size: 16px;
+      }
+
+      .addBtn {
+        padding: 10px;
+        width: 25%;
+        background: #3378c2;
+        color: white;
+        float: left;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 0 10px 10px 0;
+      }
+
+      .addBtn:hover {
+        background-color: gray;
+      }
+
+      @media (max-width: 900px) {
+        .headerBox {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 600px) {
+        ul {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="myDIV" class="header">
+      <h1>To Do</h1>
+      <div class="headerBox">
+        <input type="text" id="myInput" placeholder="Title..." />
+        <span onclick="newElement()" class="addBtn">Add</span>
+      </div>
+    </div>
+    <ul id="myUL">
+      <li class="checked">Learn HTML</li>
+      <li class="checked">Learn CSS</li>
+      <li class="checked">Learn JavaScript</li>
+      <li>Learn PHP</li>
+      <li>Learn SQL</li>
+    </ul>
+    <script>
+      var myNodelist = document.getElementsByTagName("LI");
+      var i;
+
+      for (i = 0; i < myNodelist.length; i++) {
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "close";
+        span.appendChild(txt);
+        myNodelist[i].appendChild(span);
+      }
+
+      var close = document.getElementsByClassName("close");
+      var i;
+
+      for (i = 0; i < close.length; i++) {
+        close[i].onclick = function () {
+          var div = this.parentElement;
+          div.style.display = "none";
+        };
+      }
+
+      var list = document.querySelector("ul");
+
+      list.addEventListener(
+        "click",
+        function (ev) {
+          if (ev.target.tagName === "LI") {
+            ev.target.classList.toggle("checked");
+          }
+        },
+        false
+      );
+
+      function newElement() {
+        var li = document.createElement("li");
+        var inputValue = document.getElementById("myInput").value;
+        var t = document.createTextNode(inputValue);
+        li.appendChild(t);
+        if (inputValue === "") {
+          alert("You must write something!");
+        } else {
+          document.getElementById("myUL").appendChild(li);
+        }
+        document.getElementById("myInput").value = "";
+
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "close";
+        span.appendChild(txt);
+        li.appendChild(span);
+
+        for (i = 0; i < close.length; i++) {
+          close[i].onclick = function () {
+            var div = this.parentElement;
+            div.style.display = "none";
+          };
+        }
+      }
+    </script>
+  </body>
+</html>
